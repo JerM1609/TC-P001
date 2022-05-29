@@ -1,4 +1,14 @@
 abcdefghijklmnopqrstuvwxyz
+2
+web
+ebay
+3
+eweb
+quebay
+ffwegg
+
+
+abcdefghijklmnopqrstuvwxyz
 4
 puerta
 puerco
@@ -29,12 +39,3 @@ while(true)
 do{x=10}while(true);
 #ifndef
 return;
-
-abcdefghijklmnopqrstuvwxyz
-2
-web
-ebay
-3
-eweb
-quebay
-ffwegg
