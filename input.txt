@@ -7,17 +7,16 @@ eweb
 quebay
 ffwegg
 
-
-abcdefghijklmnopqrstuvwxyz
-4
-puerta
-puerco
-espin
-cocina
+1234567890=()[]{};+-*/#abcdefghijklmnopqrstuvwxyz
 3
-puercespim
-puerto
-uercocinas
+return0;
+#ifdef
+while(true)
+4
+#definen5
+do{x=10}while(true);
+#ifndef
+return;
 
 ABCDEFGHIJKLMNOP123456789abcdefghijklmnopqrstuvwxyz=_()
 3
@@ -29,13 +28,13 @@ fill_matrix
 ifn=5
 fillMatriz(matriz)
 
-1234567890=()[]{};+-*/#abcdefghijklmnopqrstuvwxyz
-3
-return0;
-#ifdef
-while(true)
+abcdefghijklmnopqrstuvwxyz
 4
-#definen5
-do{x=10}while(true);
-#ifndef
-return;
+puerta
+puerco
+espin
+cocina
+3
+puercespim
+puerto
+uercocinas
