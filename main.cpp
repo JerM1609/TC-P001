@@ -15,7 +15,6 @@ int main()
     freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
 #endif
-    // test();
     int t, q;
     string E;
 
@@ -33,7 +32,6 @@ int main()
         timer_t timer;
         AFN->build_AFN(T, t);
     }
-
 
     printf("\tP1\n");
     // AFN->adjacency_list();
@@ -57,7 +55,7 @@ int main()
     printf("\tP4\n");
     {
         timer_t timer;
-        AFN->test(S, q);
+        AFD->test(S, q);
     }
     return 0;
 }

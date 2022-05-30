@@ -19,7 +19,7 @@ struct intArray
 {
     int sz=0, capacity=1;
     int* arr = new int[capacity];
-
+    bool F_next = false;
 
     intArray() = default;
     intArray(int v)

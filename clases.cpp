@@ -2,9 +2,10 @@
 
 void Transition::show()
 {
-    printf("(%c ", this->symbol);
-    this->next->id.show();
-    printf(") ");
+    printf("%c ", this->symbol);
+    // printf("(%c ", this->symbol);
+    // this->next->id.show();
+    // printf(") ");
 }
 
 void State::add_transition(Transition *t)
@@ -32,18 +33,21 @@ void State::add_id(int new_id)
 intArray State::get_set_id(char symbol)
 {
     intArray arr;
+    bool FF = false;
     for (int i = 0; i < this->sz_delta; ++i) {
         if (this->delta[i] == nullptr)
             continue;
-        if (this->delta[i]->symbol == symbol) {
-            for (int j = 0; j < this->delta[i]->next->id.sz; ++j) {
-                // printf("coincidencia array nuevo: ");
+        if (this->delta[i]->symbol == symbol)
+        {
+            FF |= this->delta[i]->next->F;
+            //if (FF)
+            //    printf("%c", symbol);
+            // FF = false;
+            for (int j = 0; j < this->delta[i]->next->id.sz; ++j)
                 arr.add(this->delta[i]->next->id.arr[j]);
-                // arr.show();
-            }
         }
     }
-    // printf("(sz: %i) ", arr.sz);
+    arr.F_next = FF;
     return arr;
 }
 
@@ -120,18 +124,14 @@ Automata *Automata::transform_AFD()
 {
     auto AFD = new Automata(this->E);
     int sz_E = this->E.size();
-    // printf("---\n");
+
     for (int i = 0; i < sz_E; ++i)
     {   // por cada elemento del abecedario
-        // printf("%c -> ", this->E[i]);
         auto current_id = this->Q[0]->get_set_id(this->E[i]);
         State* state = AFD->get_state(current_id);      // O(n)
-        // current_id.show();
-        // printf("\n");
 
         if (state == nullptr)
         {
-            // printf("null\n");
             state = new State(current_id);      // , global_E
             AFD->Q[0]->add_transition(new Transition(this->E[i], state)); // O(n)
             AFD->add_state(state);  // O(n)
@@ -139,43 +139,35 @@ Automata *Automata::transform_AFD()
         else
             AFD->Q[0]->add_transition(new Transition(this->E[i], state)); // O(n)
     }
-    // printf("---\n");
+
     for (int i = 1; i < AFD->sz_Q; ++i)
     {   // por cada estado nuevo en el AFD generado a partir del estado inicial
         intArray state_id =  AFD->Q[i]->id;
-
-        // state_id.show();    printf("\n");
+        // state_id.show();
+        // printf("\n");
         for (int j = 0; j < sz_E; ++j)
         {   // por cada letra del abecedario
-            // printf("%c -> \n\t", E[j]);
             intArray id_to_search;
             for (int k = 0; k < state_id.sz; ++k)
             {   // por cada estado en el id de los estados compuestos del AFD
                 // ver a donde van con la letra E[j]
-                // printf(" (%i %c) ", state_id.arr[k], E[j]);
                 intArray curr_state(state_id.arr[k]);
                 State* from = this->get_state(curr_state);
-                // from->display();
+
                 intArray to = from->get_set_id(E[j]);
                 for (int l = 0; l < to.sz; ++l)
                     id_to_search.add(to.arr[l]);
-                // to.show();
-                /*printf(" ");
-
-
-                */
+                id_to_search.F_next |= to.F_next;
             }
             State* find_state = AFD->get_state(id_to_search);
             if (find_state == nullptr)
             {   // crear nuevo estado y agregar transicion del actual al nuevo estado
-                // id_to_search.show();    printf("\n");
-                auto n_state = new State(id_to_search);
+                auto n_state = new State(id_to_search, id_to_search.F_next);
                 AFD->add_state(n_state);
                 AFD->Q[i]->add_transition(new Transition(this->E[j], n_state));
             }
             else
                 AFD->Q[i]->add_transition(new Transition(this->E[j], find_state));
-            // printf("\n");
         }
     }
 
@@ -319,13 +311,14 @@ void intArray::resize()
 void intArray::show()
 {
     if (this->sz == 0)
-    {
         printf("[]");
-        return;
+    else if (this->sz == 1)
+        printf("%i", this->arr[0]);
+    else
+    {
+        printf("[");
+        for (int i = 0; i < this->sz-1; ++i)
+            printf("%i ", this->arr[i]);
+        printf("%i]", this->arr[this->sz-1]);
     }
-
-    printf("[");
-    for (int i = 0; i < this->sz-1; ++i)
-        printf("%i ", this->arr[i]);
-    printf("%i]", this->arr[this->sz-1]);
 }
